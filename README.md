@@ -1,4 +1,4 @@
-# Robot-Controller-Support
+# Controller-Support
 
 Welcome to Robot Controller Support! This repo was created for the BSM robot. This program has only been tested on Mac OSX with a robot running raspbian (debian).
 
