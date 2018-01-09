@@ -39,7 +39,7 @@ $ sudo -s launchctl load -w /System/Library/LaunchDaemons/ftp.plist
 - Run Controller.py on host
 
 
-## Required Packages
+## Required Packages on Host
 
 - pip
 ```
@@ -51,6 +51,13 @@ $ python get-pip.py
 - pygame
 ```
 $ pip install pygame
+```
+
+## Required Packages on Client
+
+- ftp
+```
+$ sudo apt-get install ftp
 ```
 
 ## Mapping Options
