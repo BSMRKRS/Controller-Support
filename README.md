@@ -35,8 +35,7 @@ Not Tested:
 ```
 $ sudo -s launchctl load -w /System/Library/LaunchDaemons/ftp.plist
 ```
-- Run clientRead.py on client
-- Run Controller.py on host
+- Run clientRead.py on client and Controller.py on host
 
 
 ## Required Packages on Host
