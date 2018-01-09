@@ -1,6 +1,6 @@
 # Controller-Support
 
-Welcome to Robot Controller Support! This repo was created for the BSM robot. This program has only been tested on Mac OSX with a robot running raspbian (debian).
+Welcome to Controller Support! This repo was created for the BSM robot. This program has only been tested on Mac OSX with a robot running raspbian (debian).
 
 ## Supported Controllers/Tested Controllers
 
@@ -30,7 +30,7 @@ Not Tested:
 
 - Make sure you have the required packages
 - Clone this repo to both the client and the host computer
-- Change the ip, username, and password in the file clientRead.py on line 7 and this repos directory on line 8
+- Change the ip, username, and password in the file clientRead.py on line 8 and this repos directory on line 9
 - Start ftp on the host computer:
 ```
 $ sudo -s launchctl load -w /System/Library/LaunchDaemons/ftp.plist
