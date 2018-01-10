@@ -42,10 +42,7 @@ $ sudo -s launchctl load -w /System/Library/LaunchDaemons/ftp.plist
 
 - pip
 ```
-$ curl -O http://python-distribute.org/distribute_setup.py
-$ python distribute_setup.py
-$ curl -O https://raw.github.com/pypa/pip/master/contrib/get-pip.py
-$ python get-pip.py
+$ sudo easy_install pip
 ```
 - pygame
 ```
