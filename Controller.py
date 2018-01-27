@@ -45,10 +45,17 @@ def ui():
 
 
 ######################
-## 2. Joystick Reading
+## 2. Controller Reading
 ######################
-def joysticks():
+def controllerInput():
     global xAxisLeft, yAxisLeft, xAxisRight, yAxisRight, triggerLeft, triggerRight
+    global buttonSquare, buttonX, buttonCircle, buttonTriangle
+    global dpadleft, dpadright, dpaddown, dpadup, bumperL, bumperR
+
+    dpadleft = 0
+    dpadright = 0
+    dpaddown = 0
+    dpadup = 0
 
     pygame.event.get()
     joystick = pygame.joystick.Joystick(0)
@@ -62,6 +69,27 @@ def joysticks():
 
     triggerLeft = joystick.get_axis(4)
     triggerRight = joystick.get_axis(5)
+
+    buttonSquare = joystick.get_button(0)
+    buttonX = joystick.get_button(1)
+    buttonCircle = joystick.get_button(2)
+    buttonTriangle = joystick.get_button(3)
+
+    bumperL = joystick.get_button(4)
+    bumperR = joystick.get_button(5)
+
+    dpad = joystick.get_hat(0)
+    dpadxaxis = dpad[0]
+    dpadyaxis = dpad[1]
+
+    if dpadxaxis > 0:
+        dpadright = dpadxaxis
+    if dpadxaxis < 0:
+        dpadleft = -dpadxaxis
+    if dpadyaxis > 0:
+        dpadup = dpadyaxis
+    if dpadyaxis < 0:
+        dpaddown = -dpadyaxis
 
 
 ######################
@@ -98,6 +126,8 @@ def driveMotors():
         motorR = motorSpeedR + (motorSpeedR * (-xAxisLeft))
 
     return motorL, motorR
+
+
 ######################
 ## 4. Convert to KitBot
 ######################
@@ -124,7 +154,7 @@ def updateFTP(data):
 ui()
 f = open('ftpTemp','r+')
 while True:
-    joysticks()
+    controllerInput()
     drive = driveMotors()
     updateFTP(drive)
     print drive
