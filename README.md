@@ -22,6 +22,10 @@ Not Tested:
 - Wii U Pro Controller
 - Wii Pro Controller
 
+## Button Mapping
+
+Button mapping is supported, with the global variables defined in Controller.py in lines 51-53.
+
 ## Xbox Controllers (Xbox one & Xbox 360)
 
 - requires this driver https://github.com/360Controller/360Controller/releases
@@ -69,9 +73,9 @@ $ sudo apt-get install ftp
 
 ```
 Traceback (most recent call last):
-  File "Controller.py", line 127, in <module>
+  File "Controller.py", line 157, in <module>
     joysticks()
-  File "Controller.py", line 54, in joysticks
+  File "Controller.py", line 61, in joysticks
     joystick = pygame.joystick.Joystick(0)
 pygame.error: Invalid joystick device number
 ```
