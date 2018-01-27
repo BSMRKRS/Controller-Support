@@ -63,7 +63,7 @@ $ sudo apt-get install ftp
 
 ## Issues
 
-- pygame does not recognize buttons other than the analog triggers and joysticks
+- pygame does not recognize buttons other than the analog triggers and joysticks for xbox controllers
 
 ## Troubleshooting
 
