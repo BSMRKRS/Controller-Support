@@ -8,8 +8,8 @@ Full Support:
 - PS4 Controller (wired or wireless)
 
 Partial Support:
-- Xbox One Controller (wired) - changing controller scheme on the fly doesn't work
-- Xbox 360 Controller (wired) - changing controller scheme on the fly doesn't work
+- Xbox One Controller (wired) - pygame doesn't recognize all buttons
+- Xbox 360 Controller (wired) - pygame doesn't recognize all buttons
 
 Not Supported:
 - Asus GamePad
