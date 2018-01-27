@@ -60,20 +60,19 @@ $ sudo apt-get install ftp
 
 - can choose to control speed w/ right and left triggers or use right joystick
 - recommend using right joystick due to trigger dead zones
-- can changing mapping during use by pressing right bumper
 
 ## Issues
 
-- Xbox One & Xbox 360 Controller can't swap controller scheme on the fly
-- Changing controller scheme on the fly in not consistent
+- pygame does not recognize buttons other than the analog triggers and joysticks
 
 ## Troubleshooting
 
-You will receive this error if the program does not recognize your controller
-
-Traceback (most recent call last): </br>
-&nbsp;&nbsp;&nbsp;  File "Controller.py", line 120, in <module> </br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    roboSpeed() </br>
-&nbsp;&nbsp;&nbsp;  File "Controller.py", line 70, in roboSpeed </br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    if -yDeadZoneRight < yAxisRight < yDeadZoneLeft: </br>
-NameError: global name 'yAxisRight' is not defined </br>
+```
+Traceback (most recent call last):
+  File "Controller.py", line 127, in <module>
+    joysticks()
+  File "Controller.py", line 54, in joysticks
+    joystick = pygame.joystick.Joystick(0)
+pygame.error: Invalid joystick device number
+```
+- Program does not recognize controller
