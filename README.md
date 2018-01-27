@@ -8,8 +8,8 @@ Full Support:
 - PS4 Controller (wired or wireless)
 
 Partial Support:
-- Xbox One Controller (wired) - changing controller scheme on the fly doesn't work
-- Xbox 360 Controller (wired) - changing controller scheme on the fly doesn't work
+- Xbox One Controller (wired) - pygame doesn't recognize all buttons
+- Xbox 360 Controller (wired) - pygame doesn't recognize all buttons
 
 Not Supported:
 - Asus GamePad
@@ -30,7 +30,7 @@ Not Tested:
 
 - Make sure you have the required packages
 - Clone this repo to both the client and the host computer
-- Change the ip, username, and password in the file clientRead.py on line 8 and this repos directory on line 9
+- Change the ip, username, and password in the file clientRead.py on line 10 and this repos directory on line 11
 - Start ftp on the host computer:
 ```
 $ sudo -s launchctl load -w /System/Library/LaunchDaemons/ftp.plist
@@ -63,7 +63,7 @@ $ sudo apt-get install ftp
 
 ## Issues
 
-- pygame does not recognize buttons other than the analog triggers and joysticks
+- pygame does not recognize buttons other than the analog triggers and joysticks for xbox controllers
 
 ## Troubleshooting
 
