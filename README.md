@@ -2,6 +2,10 @@
 
 Welcome to Controller Support! This repo was created for the BSM robot. This program has only been tested on Mac OSX with a robot running raspbian (debian).
 
+## Write your own code
+
+Checkout the branch named custom to write your own program with controller support.
+
 ## Supported Controllers/Tested Controllers
 
 Full Support:
