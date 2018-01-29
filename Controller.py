@@ -1,6 +1,7 @@
 # --------------------------------File on Host---------------------------------
 # Reads controller input and writes to file that is read from clientRead.py on robot
 import pygame
+import os
 
 #### Global Variables ####
 
@@ -160,4 +161,8 @@ while True:
     controllerInput()
     drive = driveMotors()
     updateFTP(drive)
-    print drive
+    os.system('clear')
+    print "#"*60
+    print "##", " "*20, "Motor Values", " " *20, "##"
+    print "#"*60
+    print "motorL: ", drive[0], "motorR: ", drive[1]
