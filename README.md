@@ -2,6 +2,10 @@
 
 Welcome to Controller Support! This repo was created for the BSM robot. This program has only been tested on Mac OSX with a robot running raspbian (debian).
 
+## Write your own code
+
+Checkout the branch named custom to write your own program with controller support.
+
 ## Supported Controllers/Tested Controllers
 
 Full Support:
@@ -21,6 +25,10 @@ Not Tested:
 - Original Xbox controller
 - Wii U Pro Controller
 - Wii Pro Controller
+
+## Button Mapping
+
+Button mapping is supported, with the global variables defined in Controller.py in lines 51-53.
 
 ## Xbox Controllers (Xbox one & Xbox 360)
 
@@ -69,9 +77,9 @@ $ sudo apt-get install ftp
 
 ```
 Traceback (most recent call last):
-  File "Controller.py", line 127, in <module>
+  File "Controller.py", line 157, in <module>
     joysticks()
-  File "Controller.py", line 54, in joysticks
+  File "Controller.py", line 61, in joysticks
     joystick = pygame.joystick.Joystick(0)
 pygame.error: Invalid joystick device number
 ```
