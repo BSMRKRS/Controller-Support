@@ -29,6 +29,9 @@ def ui():
     print "#"*60
     print "Welcome to the BSM robot controller support python program!"
     print "#"*60
+    controller = open('controllerASCII', "r")
+    print controller.read()
+    print "#"*60
     print "I recommend choosing the joystick layout."
     print "For support please visit https://github.com/BSMRKRS/Controller-Support.git"
     print "#"*60
