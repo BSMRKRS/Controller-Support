@@ -1,8 +1,8 @@
 # --------------------------------File on client--------------------------------
 # Reads the ftp file from Host
 import sys, os, socket
-#import RoboPiLib as RPL
-#RPL.RoboPiInit("/dev/ttyAMA0",115200)
+import RoboPiLib as RPL
+RPL.RoboPiInit("/dev/ttyAMA0",115200)
 
 ######################
 ##    Host Info     ##
@@ -44,7 +44,7 @@ while True:
             try:
                 if data[3] == 'r':
                     RPL.servoWrite(0, int(data[1]))
-                    
+
             except:
                 ''
 
