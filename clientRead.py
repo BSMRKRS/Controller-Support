@@ -43,7 +43,7 @@ while True:
 
             try:
                 if data[3] == 'r':
-                    RPL.servoWrite(0, int(data[1]))
+                    RPL.servoWrite(0, int(data[4]))
 
             except:
                 ''
