@@ -155,12 +155,39 @@ def updateFTP(data):
 ######################
 ##      Main        ##
 ######################
+import socket
+import sys
+
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Connect the socket to the port on the server given by the caller
+server_address = ("192.168.21.113", 10000)
+print >>sys.stderr, 'connecting to %s port %s' % server_address
+sock.connect(server_address)
+
 ui()
 f = open('ftpTemp','r+')
 while True:
     controllerInput()
     drive = driveMotors()
-    updateFTP(drive)
+
+    try:
+        message = 'This is the message.  It will be repeated.'
+        print >>sys.stderr, 'sending "%s"' % message
+        sock.sendall("l." + int(float(data[0])))
+        sock.sendall("r." + int(float(data[1])))
+
+        amount_received = 0
+        amount_expected = len(message)
+        while amount_received < amount_expected:
+            data = sock.recv(16)
+            amount_received += len(data)
+            print >>sys.stderr, 'received "%s"' % data
+
+    finally:
+        sock.close()
+
     os.system('clear')
     print "#"*60
     print "##", " "*20, "Motor Values", " " *20, "##"

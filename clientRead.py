@@ -1,26 +1,44 @@
 # --------------------------------File on client--------------------------------
 # Reads the ftp file from Host
+import sys, socket
 import RoboPiLib as RPL
-import ftplib
 RPL.RoboPiInit("/dev/ttyAMA0",115200)
 
 ######################
 ##    Host Info     ##
 ######################
-ftp = ftplib.FTP('ip', 'username', 'password') # host computer info
-ftp.cwd('directory of this repo') # directory of repo on host
+# Create a TCP/IP socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Bind the socket to the address given on the command line
+server_name = sys.argv[1]
+server_address = ('192.168.21.113', 10000)
+print >>sys.stderr, 'starting up on %s port %s' % server_address
+sock.bind(server_address)
+sock.listen(1)
 
 ######################
 ##      Main        ##
 ######################
 while True:
-    gFile = open("ftpTemp", "wb")
-    ftp.retrbinary('RETR ftpTemp', gFile.write)
-    gFile = open("ftpTemp", "r")
-    buff = gFile.read()
-    convertTxtArray = buff.split()
-    motorL = convertTxtArray[0]
-    motorR = convertTxtArray[1]
-    RPL.servoWrite(0, int(float(motorL))) # for some odd reason would not convert directly to int with int()
-    RPL.servoWrite(1, int(float(motorR))) # for some odd reason would not convert directly to int with int()
-    print motorL, motorR
+    print >>sys.stderr, 'waiting for a connection'
+    connection, client_address = sock.accept()
+    try:
+        print >>sys.stderr, 'client connected:', client_address
+        while True:
+            data = connection.recv(16)
+            print >>sys.stderr, 'received "%s"' % data
+            data = data.split('.')
+
+            if data[0] == 'l':
+                RPL.servoWrite(0, int(data[1]))
+
+            if data[0] == 'r':
+                RPL.servoWrite(0, int(-data[1]))
+
+            if data:
+                connection.sendall(data)
+            else:
+                break
+    finally:
+        connection.close()
