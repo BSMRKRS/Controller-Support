@@ -1,8 +1,8 @@
 # --------------------------------File on client--------------------------------
 # Reads the ftp file from Host
-import sys, socket
-import RoboPiLib as RPL
-RPL.RoboPiInit("/dev/ttyAMA0",115200)
+import sys, os, socket
+#import RoboPiLib as RPL
+#RPL.RoboPiInit("/dev/ttyAMA0",115200)
 
 ######################
 ##    Host Info     ##
@@ -11,8 +11,8 @@ RPL.RoboPiInit("/dev/ttyAMA0",115200)
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Bind the socket to the address given on the command line
-server_name = sys.argv[1]
-server_address = ('192.168.21.113', 10000)
+#server_name = sys.argv[1]
+server_address = ('localhost', 10000)
 print >>sys.stderr, 'starting up on %s port %s' % server_address
 sock.bind(server_address)
 sock.listen(1)
@@ -30,15 +30,23 @@ while True:
             print >>sys.stderr, 'received "%s"' % data
             data = data.split('.')
 
+            try:
+                data = data[1].split('r')
+            except:
+                ''
+
             if data[0] == 'l':
                 RPL.servoWrite(0, int(data[1]))
 
             if data[0] == 'r':
                 RPL.servoWrite(0, int(data[1]))
 
-            if data:
-                connection.sendall(data)
-            else:
-                break
+            try:
+                if data[3] == 'r':
+                    RPL.servoWrite(0, int(data[1]))
+                    
+            except:
+                ''
+
     finally:
         connection.close()
