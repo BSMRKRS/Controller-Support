@@ -141,18 +141,6 @@ def KitBotSpeed(speed):
 
 
 ######################
-## 5. Write to ftpTemp
-######################
-def updateFTP(data):
-    f.seek(0)
-    f.write(str(KitBotSpeed(-data[0])))
-    f.write(" ")
-    f.write(str(KitBotSpeed(data[1])))
-    f.write(" ")
-    f.truncate()
-
-
-######################
 ##      Main        ##
 ######################
 import socket
@@ -175,8 +163,8 @@ while True:
     try:
         message = 'This is the message.  It will be repeated.'
         print >>sys.stderr, 'sending "%s"' % message
-        sock.sendall("l." + int(float(data[0])))
-        sock.sendall("r." + int(float(data[1])))
+        sock.sendall("l." + int(float(KitBotSpeed(data[0]))))
+        sock.sendall("r." + int(float(KitBotSpeed(-data[1]))))
 
         amount_received = 0
         amount_expected = len(message)

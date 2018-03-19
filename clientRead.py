@@ -34,7 +34,7 @@ while True:
                 RPL.servoWrite(0, int(data[1]))
 
             if data[0] == 'r':
-                RPL.servoWrite(0, int(-data[1]))
+                RPL.servoWrite(0, int(data[1]))
 
             if data:
                 connection.sendall(data)
