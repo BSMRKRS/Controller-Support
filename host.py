@@ -1,4 +1,4 @@
-# --------------------------------File on client--------------------------------
+# --------------------------------File on Robot---------------------------------
 # Reads the ftp file from Host
 import sys, os, socket
 import RoboPiLib as RPL
@@ -11,8 +11,8 @@ RPL.RoboPiInit("/dev/ttyAMA0",115200)
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Bind the socket to the address given on the command line
-#server_name = sys.argv[1]
-server_address = ('localhost', 10000)
+host = sys.argv[1]
+server_address = (host, 10000)
 print >>sys.stderr, 'starting up on %s port %s' % server_address
 sock.bind(server_address)
 sock.listen(1)

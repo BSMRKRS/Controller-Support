@@ -1,4 +1,4 @@
-# --------------------------------File on Host---------------------------------
+# --------------------------------File on Latop---------------------------------
 # Reads controller input and writes to file that is read from clientRead.py on robot
 import os, sys, socket
 import pygame
