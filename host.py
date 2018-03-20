@@ -26,27 +26,11 @@ while True:
     try:
         print >>sys.stderr, 'client connected:', client_address
         while True:
-            data = connection.recv(16)
-            print >>sys.stderr, 'received "%s"' % data
-            data = data.split('.')
+            data = connection.recv(12)
+            data = data.split(' ')
 
-            try:
-                data = data[1].split('r')
-            except:
-                ''
-
-            if data[0] == 'l':
-                RPL.servoWrite(0, int(data[1]))
-
-            if data[0] == 'r':
-                RPL.servoWrite(0, int(data[1]))
-
-            try:
-                if data[3] == 'r':
-                    RPL.servoWrite(0, int(data[1]))
-
-            except:
-                ''
+            RPL.servoWrite(0, int(data[0]))
+            RPL.servoWrite(1, int(data[1]))
 
     finally:
         connection.close()
