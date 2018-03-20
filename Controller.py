@@ -1,9 +1,12 @@
 # --------------------------------File on Host---------------------------------
 # Reads controller input and writes to file that is read from clientRead.py on robot
+import os, sys, socket
 import pygame
-import os
+from time import sleep
 
 #### Global Variables ####
+
+socketRate = .1 # Make larger number to slow do info sent to Robot; larger number creates more latency; Too low of number sents too much info
 
 # left and right joystick dead zones (current dead zone for ps4 controller)
 xDeadZoneLeft = 0.06
@@ -82,18 +85,19 @@ def controllerInput():
     bumperL = joystick.get_button(4)
     bumperR = joystick.get_button(5)
 
-    dpad = joystick.get_hat(0)
-    dpadxaxis = dpad[0]
-    dpadyaxis = dpad[1]
+    # dpad works w/ PS4 controller, but not xbox
+    #dpad = joystick.get_hat(0)
+    #dpadxaxis = dpad[0]
+    #dpadyaxis = dpad[1]
 
-    if dpadxaxis > 0:
-        dpadright = dpadxaxis
-    if dpadxaxis < 0:
-        dpadleft = -dpadxaxis
-    if dpadyaxis > 0:
-        dpadup = dpadyaxis
-    if dpadyaxis < 0:
-        dpaddown = -dpadyaxis
+    #if dpadxaxis > 0:
+    #    dpadright = dpadxaxis
+    #if dpadxaxis < 0:
+    #    dpadleft = -dpadxaxis
+    #if dpadyaxis > 0:
+    #    dpadup = dpadyaxis
+    #if dpadyaxis < 0:
+    #    dpaddown = -dpadyaxis
 
 
 ######################
@@ -143,9 +147,6 @@ def KitBotSpeed(speed):
 ######################
 ##      Main        ##
 ######################
-import socket
-import sys
-
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -160,8 +161,8 @@ while True:
     drive = driveMotors()
 
     try:
-        sock.sendall("l." + str(int(KitBotSpeed(drive[0]))))
-        sock.sendall("r." + str(int(KitBotSpeed(drive[1]))))
+        sock.sendall(str(int(KitBotSpeed(drive[0]))) + ' ' + str(int(KitBotSpeed(drive[1]))))
+        sleep(socketRate)
 
     except:
         print "Error: Failed to connect to Robot"
