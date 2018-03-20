@@ -2,6 +2,22 @@
 
 Welcome to Controller Support! This repo was created for the BSM robot. This program has only been tested on Mac OSX with a robot running raspbian (debian).
 
+## Setup
+
+- Make sure you have the required packages
+- Clone this repo to both the laptop and robot
+- Run host.py on robot and then run Controller on laptop (order matters and replace robot ip w/ your robot's ip address)
+```
+$ python host.py <robot ip>
+$ python Controller.py <robot ip>
+```
+
+## Required Packages on Host
+- pygame
+```
+$ pip install pygame
+```
+
 ## Write your own code
 
 Checkout the branch named custom to write your own program with controller support.
@@ -34,35 +50,6 @@ Button mapping is supported, with the global variables defined in Controller.py 
 
 - requires this driver https://github.com/360Controller/360Controller/releases
 
-## Setup
-
-- Make sure you have the required packages
-- Clone this repo to both the client and the host computer
-- Change the ip, username, and password in the file clientRead.py on line 10 and this repos directory on line 11
-- Start ftp on the host computer:
-```
-$ sudo -s launchctl load -w /System/Library/LaunchDaemons/ftp.plist
-```
-- Run clientRead.py on client and Controller.py on host
-
-
-## Required Packages on Host
-
-- pip
-```
-$ sudo easy_install pip
-```
-- pygame
-```
-$ pip install pygame
-```
-
-## Required Packages on Client
-
-- ftp
-```
-$ sudo apt-get install ftp
-```
 
 ## Mapping Options
 
