@@ -1,5 +1,5 @@
 # --------------------------------File on Robot---------------------------------
-# Reads the ftp file from Host
+# Hosts a TCP connection and interprets the data recieved
 import sys, os, socket
 import RoboPiLib as RPL
 RPL.RoboPiInit("/dev/ttyAMA0",115200)

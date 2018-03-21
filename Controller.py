@@ -1,5 +1,5 @@
 # --------------------------------File on Latop---------------------------------
-# Reads controller input and writes to file that is read from clientRead.py on robot
+# Reads controller input and connects to robot
 import os, sys, socket
 import pygame
 from time import sleep
@@ -24,6 +24,7 @@ maxMotorR = 500
 pygame.init()
 pygame.display.init()
 pygame.joystick.init()
+
 
 ######################
 ## 1. UI
@@ -145,7 +146,7 @@ def KitBotSpeed(speed):
 
 
 ######################
-##      Main        ##
+## 5. Connect to Network
 ######################
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -155,6 +156,10 @@ server_address = (sys.argv[1], 10000)
 print >>sys.stderr, 'connecting to %s port %s' % server_address
 sock.connect(server_address)
 
+
+######################
+##      Main        ##
+######################
 ui()
 while True:
     controllerInput()
