@@ -6,6 +6,10 @@ Welcome to Controller Support! This repo was created for the BSM robot. This pro
 
 - Make sure you have the required packages
 - Clone this repo to both the laptop and robot
+- An alternitive to downloading the whole repo to your robot is downloading it from http://andrewvoss.org/downloads/host.py
+```
+$ wget http://andrewvoss.org/downloads/host.py
+```
 - Run host.py on robot and then run Controller on laptop (order matters and replace \<robot ip> w/ your robot's ip address)
 ```
 $ python host.py <robot ip>
