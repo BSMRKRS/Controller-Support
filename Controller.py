@@ -161,7 +161,7 @@ while True:
     drive = driveMotors()
 
     try:
-        sock.sendall(str(int(KitBotSpeed(drive[0]))) + ' ' + str(int(KitBotSpeed(drive[1]))))
+        sock.sendall(str(int(KitBotSpeed(-drive[0]))) + ' ' + str(int(KitBotSpeed(drive[1]))))
         sleep(socketRate)
 
     except:

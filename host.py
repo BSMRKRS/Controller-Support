@@ -26,7 +26,7 @@ while True:
     try:
         print >>sys.stderr, 'client connected:', client_address
         while True:
-            data = connection.recv(12)
+            data = connection.recv(9)
             data = data.split(' ')
 
             RPL.servoWrite(0, int(data[0]))
