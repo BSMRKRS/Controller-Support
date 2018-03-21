@@ -1,5 +1,5 @@
 # --------------------------------File on Latop---------------------------------
-# Reads controller input and writes to file that is read from clientRead.py on robot
+# Reads controller input and connects to robot
 import os, sys, socket
 import pygame
 from time import sleep
