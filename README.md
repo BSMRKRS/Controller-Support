@@ -2,22 +2,36 @@
 
 Welcome to Controller Support! This repo was created for the BSM robot. This program has only been tested on Mac OSX with a robot running raspbian (debian).
 
+## Configure motors
+
+- Change lines 11 & 12 to correct pin values for motors
+
 ## Setup
 
 - Make sure you have the required packages
 - Clone this repo to both the laptop and robot
-- An alternitive to downloading the whole repo to your robot is downloading it using wget or curl
+- An alternative to downloading the whole repo to your robot is downloading RoboPiLib.py and host.py it using wget or curl
+
 ```
 $ wget https://raw.githubusercontent.com/BSMRKRS/Controller-Support/master/RoboPiLib.py
 $ wget https://raw.githubusercontent.com/BSMRKRS/Controller-Support/master/host.py
 ```
-- Run host.py on robot and then run Controller on laptop (order matters and replace \<robot ip> w/ your robot's ip address)
+
+and download Controller.py to laptop
+
 ```
-$ python host.py <robot ip>
+$ curl -O https://raw.githubusercontent.com/BSMRKRS/Controller-Support/master/Controller.py
+```
+
+- Run host.py on robot and then run Controller on laptop (order matters and replace \<robot ip> w/ your robot's ip address)
+
+```
+$ python host.py
 $ python Controller.py <robot ip>
 ```
 
 ## Required Packages on Host
+
 - pygame
 ```
 $ pip install pygame
@@ -64,15 +78,3 @@ Button mapping is supported, with the global variables defined in Controller.py 
 ## Issues
 
 - pygame does not recognize buttons other than the analog triggers and joysticks for xbox controllers
-
-## Troubleshooting
-
-```
-Traceback (most recent call last):
-  File "Controller.py", line 157, in <module>
-    joysticks()
-  File "Controller.py", line 61, in joysticks
-    joystick = pygame.joystick.Joystick(0)
-pygame.error: Invalid joystick device number
-```
-- Program does not recognize controller
