@@ -66,7 +66,14 @@ def controllerInput():
     dpadup = 0
 
     pygame.event.get()
-    joystick = pygame.joystick.Joystick(0)
+
+    try:
+        joystick = pygame.joystick.Joystick(0)
+    except:
+        print "ERROR: Controller not found!"
+        print "#" * 60
+        exit()
+
     joystick.init()
 
     xAxisLeft = joystick.get_axis(0)
@@ -148,13 +155,19 @@ def KitBotSpeed(speed):
 ######################
 ## 5. Connect to Network
 ######################
-# Create a TCP/IP socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+try:
+    # Create a TCP/IP socket
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# Connect the socket to the port on the server given by the caller
-server_address = (sys.argv[1], 10000)
-print >>sys.stderr, 'connecting to %s port %s' % server_address
-sock.connect(server_address)
+    # Connect the socket to the port on the server given by the caller
+    server_address = (sys.argv[1], 10000)
+    print >>sys.stderr, 'connecting to %s port %s' % server_address
+    sock.connect(server_address)
+except:
+    print "#" * 60
+    print "ERROR: Failed to connect to host"
+    print "#" * 60
+    exit()
 
 
 ######################
