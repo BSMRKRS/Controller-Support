@@ -68,6 +68,12 @@ Button mapping is supported, with the global variables defined in Controller.py 
 ## Xbox Controllers (Xbox one & Xbox 360)
 
 - requires this driver https://github.com/360Controller/360Controller/releases
+- If you are on High Sierra you will need to use this work arround to enable this driver's kext to load
+  - Open "System Preferences" and click "Keyboard" then "Input Sources" and enable keyboard access to "All controls"
+  - ![alt text](docs/keyboard.png)
+  - In "System Preferences" go to "Security & Privacy" and hit tab until the allow button is highlighted and hit space or enter.
+  - ![alt text](docs/allow.png)
+  - This issue happens on High Sierra due to not allowing any kext to be allowed while a monitoring software/screen controlling software is running like "LanSchool"
 
 
 ## Mapping Options
