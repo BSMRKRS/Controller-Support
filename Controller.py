@@ -48,7 +48,7 @@ def ui():
 ## 2. Controller Reading
 ######################
 def controllerInput():
-    global xAxisLeft, yAxisLeft, xAxisRight, yAxisRight
+    global xAxisLeft, yAxisLeft, xAxisRight, yAxisRight, triggerRight, triggerLeft
 
     dpadleft = 0
     dpadright = 0
@@ -72,12 +72,20 @@ def controllerInput():
     xAxisRight = joystick.get_axis(2)
     yAxisRight = joystick.get_axis(3)
 
+    triggerLeft = joystick.get_axis(4)
+    triggerRight = joystick.get_axis(5)
+
 
 ######################
 ## 3. Inturpret Joystick
 ######################
 def driveMotors():
     global motorL, motorR
+
+    if triggerRight > -1.0:
+        return 1024, -1024
+    elif triggerLeft > -1.0:
+        return -1024, 1024
 
     if -yDeadZoneRight < yAxisRight < yDeadZoneLeft:
         motorSpeedL = 0
