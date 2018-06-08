@@ -15,8 +15,8 @@ xDeadZoneRight = 0.06
 yDeadZoneRight = 0.06
 
 # motor speeds (assumes there is the same possible speeds going in reverse)
-maxMotorL = 500
-maxMotorR = 500
+maxMotorL = 1024
+maxMotorR = 1024
 
 ######################
 ## 0. Initialization
@@ -43,12 +43,13 @@ def ui():
     raw_input("$: ")
     print "#"*60
 
-    
+
 ######################
 ## 2. Controller Reading
 ######################
 def controllerInput():
     global xAxisLeft, yAxisLeft, xAxisRight, yAxisRight
+
     dpadleft = 0
     dpadright = 0
     dpaddown = 0
@@ -69,7 +70,7 @@ def controllerInput():
     yAxisLeft = joystick.get_axis(1)
 
     xAxisRight = joystick.get_axis(2)
-    yAxisRight = joystick.get_axis(3
+    yAxisRight = joystick.get_axis(3)
 
 
 ######################
@@ -109,12 +110,16 @@ def speedConvert(speed):
         speed = speed + 1024
         return speed
     else:
-        return -speed
+        if speed ==  -1024:
+            return 1023
+        else:
+            return -speed
 
 
 ######################
 ## 5. Connect to Network
 ######################
+'''
 try:
     # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -128,7 +133,7 @@ except:
     print "ERROR: Failed to connect to host"
     print "#" * 60
     exit()
-
+'''
 
 ######################
 ##      Main        ##
@@ -138,8 +143,10 @@ while True:
     controllerInput()
     drive = driveMotors()
 
-    print str('%04.0f' % int(drive[0])) + ' ' + str('%04.0f' % int((drive[1])))
+    os.system('clear')
+    print str('%04.0f' % int(speedConvert(-drive[0]))) + ' ' + str('%04.0f' % int(speedConvert(drive[1])))
 
+    '''
     try:
         sock.sendall(str('%04.0f' % int(speedConvert(-drive[0]))) + ' ' + str('%04.0f' % int(speedConvert(drive[1]))))
         sleep(socketRate)
@@ -147,9 +154,4 @@ while True:
     except:
         print "Error: Failed to connect to Robot"
         exit()
-
-    os.system('clear')
-    print "#"*60
-    print "##", " "*20, "Motor Values", " " *20, "##"
-    print "#"*60
-    print "motorL: ", drive[0], "motorR: ", drive[1]
+    '''
