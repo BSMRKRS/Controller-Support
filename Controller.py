@@ -54,9 +54,7 @@ def ui():
 ## 2. Controller Reading
 ######################
 def controllerInput():
-    global xAxisLeft, yAxisLeft, xAxisRight, yAxisRight, triggerLeft, triggerRight
-    global aButton, start, xbox
-    global bumperR, bumperL
+    global xAxisLeft, yAxisLeft, xAxisRight, yAxisRight
 
     dpadleft = 0
     dpadright = 0
