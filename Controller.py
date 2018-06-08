@@ -15,8 +15,8 @@ xDeadZoneRight = 0.06
 yDeadZoneRight = 0.06
 
 # motor speeds (assumes there is the same possible speeds going in reverse)
-maxMotorL = 500
-maxMotorR = 500
+maxMotorL = 1024
+maxMotorR = 1024
 
 ######################
 ## 0. Initialization
@@ -49,6 +49,7 @@ def ui():
 ######################
 def controllerInput():
     global xAxisLeft, yAxisLeft, xAxisRight, yAxisRight
+
     dpadleft = 0
     dpadright = 0
     dpaddown = 0
@@ -102,9 +103,17 @@ def driveMotors():
 ######################
 ## 4. Convert to KitBot
 ######################
-def KitBotSpeed(speed):
-    center = 1500
-    return speed + center
+def speedConvert(speed):
+    if speed == 1024:
+        return 2047
+    if speed > 0:
+        speed = speed + 1024
+        return speed
+    else:
+        if speed ==  -1024:
+            return 1023
+        else:
+            return -speed
 
 
 ######################
@@ -133,16 +142,13 @@ while True:
     controllerInput()
     drive = driveMotors()
 
+    os.system('clear')
+    print str('%04.0f' % int(speedConvert(-drive[0]))) + ' ' + str('%04.0f' % int(speedConvert(drive[1])))
+
     try:
-        sock.sendall(str(int(KitBotSpeed(-drive[0]))) + ' ' + str(int(KitBotSpeed(drive[1]))))
+        sock.sendall(str('%04.0f' % int(speedConvert(-drive[0]))) + ' ' + str('%04.0f' % int(speedConvert(drive[1]))))
         sleep(socketRate)
 
     except:
         print "Error: Failed to connect to Robot"
         exit()
-
-    os.system('clear')
-    print "#"*60
-    print "##", " "*20, "Motor Values", " " *20, "##"
-    print "#"*60
-    print "motorL: ", drive[0], "motorR: ", drive[1]
