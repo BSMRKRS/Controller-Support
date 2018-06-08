@@ -119,7 +119,6 @@ def speedConvert(speed):
 ######################
 ## 5. Connect to Network
 ######################
-'''
 try:
     # Create a TCP/IP socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -133,7 +132,7 @@ except:
     print "ERROR: Failed to connect to host"
     print "#" * 60
     exit()
-'''
+
 
 ######################
 ##      Main        ##
@@ -146,7 +145,6 @@ while True:
     os.system('clear')
     print str('%04.0f' % int(speedConvert(-drive[0]))) + ' ' + str('%04.0f' % int(speedConvert(drive[1])))
 
-    '''
     try:
         sock.sendall(str('%04.0f' % int(speedConvert(-drive[0]))) + ' ' + str('%04.0f' % int(speedConvert(drive[1]))))
         sleep(socketRate)
@@ -154,4 +152,3 @@ while True:
     except:
         print "Error: Failed to connect to Robot"
         exit()
-    '''
