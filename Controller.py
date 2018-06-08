@@ -15,8 +15,8 @@ xDeadZoneRight = 0.06
 yDeadZoneRight = 0.06
 
 # motor speeds (assumes there is the same possible speeds going in reverse)
-maxMotorL = 500
-maxMotorR = 500
+maxMotorL = 1024
+maxMotorR = 1024
 
 ######################
 ## 0. Initialization
@@ -41,7 +41,27 @@ def ui():
     print "To controll use the left and right joystick."
     print "Hit Enter to begin!"
     raw_input("$: ")
-    print "#"*60
+    print "#"*60global motorL, motorR
+
+    if -yDeadZoneRight < yAxisRight < yDeadZoneLeft:
+        motorSpeedL = 0
+        motorSpeedR = 0
+    else:
+        motorSpeedL = maxMotorL * -yAxisRight
+        motorSpeedR = maxMotorR * -yAxisRight
+
+    if -xDeadZoneLeft < xAxisLeft < xDeadZoneLeft:
+        motorL = motorSpeedL
+        motorR = motorSpeedR
+
+    elif xAxisLeft <= 0:
+        motorL = motorSpeedL - (motorSpeedL * (-xAxisLeft))
+        motorR = motorSpeedR
+    elif xAxisLeft > 0:
+        motorL = motorSpeedL
+        motorR = motorSpeedR + (motorSpeedR * (-xAxisLeft))
+
+    return motorL, motorR
 
 
 ######################
@@ -71,6 +91,9 @@ def controllerInput():
 
     xAxisRight = joystick.get_axis(2)
     yAxisRight = joystick.get_axis(3)
+
+    triggerLeft = joystick.get_axis(4)
+    triggerRight = joystick.get_axis(5)
 
 
 ######################
@@ -103,9 +126,14 @@ def driveMotors():
 ######################
 ## 4. Convert to KitBot
 ######################
-def KitBotSpeed(speed):
-    center = 1500
-    return speed + center
+def speedConvert(speed):
+    if speed == 1024:
+        return 2047
+    if speed > 0:
+        speed = speed + 1024
+        return speed
+    else:
+        return -speed
 
 
 ######################
@@ -134,8 +162,10 @@ while True:
     controllerInput()
     drive = driveMotors()
 
+    print str('%04.0f' % int(drive[0])) + ' ' + str('%04.0f' % int((drive[1])))
+
     try:
-        sock.sendall(str(int(KitBotSpeed(-drive[0]))) + ' ' + str(int(KitBotSpeed(drive[1]))))
+        sock.sendall(str('%04.0f' % int(speedConvert(-drive[0]))) + ' ' + str('%04.0f' % int(speedConvert(drive[1]))))
         sleep(socketRate)
 
     except:
