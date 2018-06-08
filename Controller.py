@@ -9,6 +9,7 @@ from time import sleep
 mode = 1 # starting mode; 1 for driving and 0 for arm
 
 socketRate = .1 # Make larger number to slow do info sent to Robot; larger number creates more latency; Too low of number sents too much info
+socketRateArm = 1
 
 # left and right joystick dead zones (current dead zone for ps4 controller)
 xDeadZoneLeft = 0.06
@@ -54,8 +55,8 @@ def ui():
 ######################
 def controllerInput():
     global xAxisLeft, yAxisLeft, xAxisRight, yAxisRight, triggerLeft, triggerRight
-    global buttonSquare, buttonX, buttonCircle, buttonTriangle
     global aButton, start, xbox
+    global bumperR, bumperL
 
     dpadleft = 0
     dpadright = 0
@@ -85,13 +86,16 @@ def controllerInput():
     start = joystick.get_button(4)
     xbox = joystick.get_button(10)
 
+    bumperR = joystick.get_button(9)
+    bumperL = joystick.get_button(8)
+
 ######################
 ## 3. Inturpret Joystick
 ######################
 def driveMotors():
     global motorL, motorR
 
-    if -yDeadZoneRight < yAxisRight < yDeadZoneLeft:
+    if -yDeadZoneRight < yAxisRight < yDeadZoneRight:
         motorSpeedL = 0
         motorSpeedR = 0
     else:
@@ -128,8 +132,25 @@ def arm():
         print "Arm: Stopped"
     elif yAxisRight <= 0:
         print "Arm: Forwards"
+        sockArm.sendall('0001 0000')
+        sleep(socketRate)
     else:
         print "Arm: Backwards"
+        sockArm.sendall('0002 0000')
+        sleep(socketRate)
+
+    if -yDeadZoneLeft < yAxisLeft < yDeadZoneLeft:
+        print "Elbow: Stopped"
+    elif yAxisLeft <= 0:
+        print "Elbow: Forwards"
+        sockArm.sendall('0003 0000')
+        sleep(socketRate)
+    else:
+        print "Elbow: Backwards"
+        sockArm.sendall('0004 0000')
+        sleep(socketRate)
+
+
 
 
 ######################
@@ -137,9 +158,25 @@ def arm():
 ######################
 def grasper():
     if triggerRight > -1.0:
-        print "Grasper: Closed"
+        print "Grasper: Closing"
     else:
-        print "Grasper: Open"
+        print "Grasper: Stop"
+    if triggerLeft > -1.0:
+        print "Grasper: Opening"
+    else:
+        print "Grasper: Stop"
+
+
+######################
+## 5. Turret
+######################
+def turret():
+    if bumperR:
+        print "Turret: Right"
+    elif bumperL:
+        print "Turret: Left"
+    else:
+        print "Turret: Stopped"
 
 
 ######################
@@ -178,6 +215,7 @@ sleep(1)
 while True:
     controllerInput()
     if xbox:
+        #arm.control("stop")
         print "Exiting...bye"
         exit()
 
@@ -206,3 +244,4 @@ while True:
         os.system('clear')
         arm()
         grasper()
+        turret()
