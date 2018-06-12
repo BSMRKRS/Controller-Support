@@ -1,6 +1,6 @@
 # --------------------------------File on Robot---------------------------------
 # Hosts a TCP connection and interprets the data recieved
-import sys, os, socket
+import sys, os, socket, re
 from pyax12.connection import Connection
 
 sc = Connection(port="/dev/ttyACM0", baudrate=1000000)
@@ -23,7 +23,6 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the address given on the command line
 host = '0.0.0.0'
 server_address = (host, 10000)
-#print >>sys.stderr, 'starting up on %s port %s' % server_address
 sock.bind(server_address)
 sock.listen(1)
 
@@ -31,19 +30,20 @@ sock.listen(1)
 ##      Main        ##
 ######################
 while True:
-    #print >>sys.stderr, 'waiting for a connection'
     connection, client_address = sock.accept()
     try:
-        #print >>sys.stderr, 'client connected:', client_address
         while True:
             data = connection.recv(9)
+            data = str(data)
+            data = re.sub("[b']", '', data)
+            print("Data: ",data)
             data = data.split(' ')
 
             sc.set_speed(1, int(data[0]))
-            sc.set_speed(4, int(data[0]))
+            sc.set_speed(2, int(data[0]))
 
-            sc.set_speed(2, int(data[1]))
             sc.set_speed(3, int(data[1]))
+            sc.set_speed(4, int(data[1]))
 
     finally:
         connection.close()
