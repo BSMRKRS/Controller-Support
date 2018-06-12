@@ -57,6 +57,7 @@ def controllerInput():
     global xAxisLeft, yAxisLeft, xAxisRight, yAxisRight, triggerLeft, triggerRight
     global aButton, start, xbox
     global bumperR, bumperL
+    global buttonA, buttonB
 
     dpadleft = 0
     dpadright = 0
@@ -88,6 +89,10 @@ def controllerInput():
 
     bumperR = joystick.get_button(9)
     bumperL = joystick.get_button(8)
+
+    buttonA = joystick.get_button(11)
+    buttonB = joystick.get_button(12)
+
 
 ######################
 ## 3. Inturpret Joystick
@@ -156,15 +161,35 @@ def arm():
 ######################
 ## 5. Grasper
 ######################
+handPos = 0 # middle
 def grasper():
-    if triggerRight > -1.0:
+    global handPos
+    if buttonA:
         print "Grasper: Closing"
+        handPos = handPos + 50
+        print "0005 " + str('%04.0f' % handPos)
+        sockArm.sendall(str("0005 " + str('%04.0f' % handPos)))
+        sleep(socketRate)
     else:
         print "Grasper: Stop"
-    if triggerLeft > -1.0:
+    if buttonB:
         print "Grasper: Opening"
+        handPos = handPos - 50
+        print "0005 " + str('%04.0f' % handPos)
+        sockArm.sendall(str("0005 " + str('%04.0f' % handPos)))
+        sleep(socketRate)
     else:
         print "Grasper: Stop"
+
+    if (triggerLeft > -1.0) and (triggerRight > -1.0):
+        sockArm.sendall("0006 0000")
+        sleep(socketRate)
+    elif (triggerRight > -1.0):
+        sockArm.sendall("0007 0000")
+        sleep(socketRate)
+    elif (triggerLeft > -1.0):
+        sockArm.sendall("0008 0000")
+        sleep(socketRate)
 
 
 ######################
