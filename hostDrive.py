@@ -34,10 +34,13 @@ while True:
         print >>sys.stderr, 'client connected:', client_address
         while True:
             data = connection.recv(9)
+            print "Recv: ", data
             data = data.split(' ')
 
             RPL.servoWrite(motorL, int(data[0]))
             RPL.servoWrite(motorR, int(data[1]))
+
+            connection.sendall('r')
 
     finally:
         connection.close()

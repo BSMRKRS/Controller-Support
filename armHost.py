@@ -1,7 +1,23 @@
 # --------------------------------File on Robot---------------------------------
 # Hosts a TCP connection and interprets the data recieved
 import sys, os, socket
-import stepper_control as arm
+import arm
+import RoboPiLib as RPL
+from time import sleep
+RPL.RoboPiInit("/dev/ttyAMA0",115200)
+
+# Grasper Pins
+grasper0 = 10
+grasper1 = 11
+
+# wrist pins
+wrist0 = 8
+wrist1 = 9
+
+sleepRate = .01
+
+def convertServo(x):
+    return (x + 1500)
 
 ######################
 ##    Host Info     ##
@@ -25,17 +41,41 @@ while True:
             data = connection.recv(9)
             data = data.split(' ')
 
-            # Shoulder Forward
             if int(data[0]) == 1:
-                #print "Forward"
                 arm.shoulder(1, .05, 500)
-             # Shoulder Backward
             if int(data[0]) == 2:
-                #print "Backward"
                 arm.shoulder(0, .05, 500)
             if int(data[0]) == 3:
                 arm.elbow(1, .05, 100)
             if int(data[0]) == 4:
                 arm.elbow(0, .05, 100)
+            if int(data[0]) == 5:
+                RPL.servoWrite(grasper0, convertServo(-int(data[1])))
+                RPL.servoWrite(grasper1, convertServo(int(data[1])))
+            '''
+            if int(data[0]) == 6:
+                RPL.servoWrite(wrist0, 2000)
+                sleep(sleepRate)
+                RPL.servoWrite(wrist1, 2000)
+                sleep(sleepRate)
+            if int(data[0]) == 7:
+                RPL.servoWrite(wrist0, 1000)
+                sleep(sleepRate)
+                RPL.servoWrite(wrist1, 2000)
+                sleep(sleepRate)
+            if int(data[0]) == 8:
+                RPL.servoWrite(wrist0, 2000)
+                sleep(sleepRate)
+                RPL.servoWrite(wrist1, 1000)
+                sleep(sleepRate)
+            else:
+                RPL.servoWrite(wrist0, 0)
+                sleep(sleepRate)
+                RPL.servoWrite(wrist1, 0)
+                sleep(sleepRate)
+            '''
+
+            connection.sendall('r')
+
     finally:
         connection.close()

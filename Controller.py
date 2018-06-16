@@ -8,9 +8,6 @@ from time import sleep
 
 mode = 1 # starting mode; 1 for driving and 0 for arm
 
-socketRate = .1 # Make larger number to slow do info sent to Robot; larger number creates more latency; Too low of number sents too much info
-socketRateArm = 1
-
 # left and right joystick dead zones (current dead zone for ps4 controller)
 xDeadZoneLeft = 0.06
 yDeadZoneLeft = 0.06
@@ -138,22 +135,22 @@ def arm():
     elif yAxisRight <= 0:
         print "Arm: Forwards"
         sockArm.sendall('0001 0000')
-        sleep(socketRate)
+        sockArm.recv(1)
     else:
         print "Arm: Backwards"
         sockArm.sendall('0002 0000')
-        sleep(socketRate)
+        sockArm.recv(1)
 
     if -yDeadZoneLeft < yAxisLeft < yDeadZoneLeft:
         print "Elbow: Stopped"
     elif yAxisLeft <= 0:
         print "Elbow: Forwards"
         sockArm.sendall('0003 0000')
-        sleep(socketRate)
+        sockArm.recv(1)
     else:
         print "Elbow: Backwards"
         sockArm.sendall('0004 0000')
-        sleep(socketRate)
+        sockArm.recv(1)
 
 
 
@@ -169,7 +166,7 @@ def grasper():
         handPos = handPos + 50
         print "0005 " + str('%04.0f' % handPos)
         sockArm.sendall(str("0005 " + str('%04.0f' % handPos)))
-        sleep(socketRate)
+        sockArm.recv(1)
     else:
         print "Grasper: Stop"
     if buttonB:
@@ -177,19 +174,19 @@ def grasper():
         handPos = handPos - 50
         print "0005 " + str('%04.0f' % handPos)
         sockArm.sendall(str("0005 " + str('%04.0f' % handPos)))
-        sleep(socketRate)
+        sockArm.recv(1)
     else:
         print "Grasper: Stop"
 
     if (triggerLeft > -1.0) and (triggerRight > -1.0):
         sockArm.sendall("0006 0000")
-        sleep(socketRate)
+        sockArm.recv(1)
     elif (triggerRight > -1.0):
         sockArm.sendall("0007 0000")
-        sleep(socketRate)
+        sockArm.recv(1)
     elif (triggerLeft > -1.0):
         sockArm.sendall("0008 0000")
-        sleep(socketRate)
+        sockArm.recv(1)
 
 
 ######################
@@ -254,7 +251,7 @@ while True:
 
         try:
             sockDrive.sendall(str(int(KitBotSpeed(-drive[0]))) + ' ' + str(int(KitBotSpeed(drive[1]))))
-            sleep(socketRate)
+            sockDrive.recv(1)
 
         except:
             print "Error: Failed to connect to Robot"

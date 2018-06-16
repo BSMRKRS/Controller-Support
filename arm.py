@@ -39,6 +39,7 @@ def elbow(dir, run_for = 1, speed = speed):
   RPL.pwmWrite(elbow_pul, speed, speed * 2)
   time.sleep(run_for)
   stop()
+
 def wristRotateClockwise():
   RPL.servoWrite(9, 10)
   time.sleep(1)
@@ -58,32 +59,3 @@ def wristGrasperOpen():
   RPL.servoWrite(11,10)
   time.sleep(1)
   RPL.servoWrite(11,0)
-#ui control for ar control. a = shoulder back. s = shoulder forward. d = elbow backward. f = elbow forward
-def control(dir):
-    if dir == "foward":
-        shoulder(False,1,100)
-    elif dir == "backward":
-        shoulder(True,1,100)
-    elif dir == "d":
-        elbow(False,1,100)
-    elif dir == "f":
-        elbow(True,1,100)
-    elif dir == "stop":
-        stop()
-    elif dir == "q":
-        quit()
-    elif dir == "w":
-        wristRotateClockwise()
-    elif dir == "r":
-        wristFlipUp()
-    elif dir == "t":
-        wristGrasperOpen()
-    else:
-        print "Not a command"
-
-# python
-# import stepper_control as st
-# st.elbow(True)
-# st.elbow(False) Run in the other direction
-# st.elbow(True, 2) Run for 2 seconds
-# st.elbow(True, 2, 100) Run for 2 seconds much faster
