@@ -45,5 +45,7 @@ while True:
             sc.set_speed(3, int(data[1]))
             sc.set_speed(4, int(data[1]))
 
+            connection.sendall('r')
+
     finally:
         connection.close()
