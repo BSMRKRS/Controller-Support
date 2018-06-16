@@ -2,44 +2,37 @@
 
 Welcome to Controller Support! This repo was created for the BSM robot. This program has only been tested on Mac OSX with a robot running raspbian (debian).
 
-## Configure motors
+## Setup AX-12
 
-- Change lines 11 & 12 to correct pin values for motors
+- Plug into windows computer w/ RoboPlus and use Dynamixal Wizard
+- Set an id on each of the motors (They cannot be the same & the default is 1)
+- http://www.robotis.us/roboplus1/
 
 ## Setup
 
 - Make sure you have the required packages
 - Clone this repo to both the laptop and robot
-- An alternative to downloading the whole repo to your robot is downloading RoboPiLib.py and host.py it using wget or curl
-
-```
-$ wget https://raw.githubusercontent.com/BSMRKRS/Controller-Support/master/RoboPiLib.py
-$ wget https://raw.githubusercontent.com/BSMRKRS/Controller-Support/master/host.py
-```
-
-and download Controller.py to laptop
-
-```
-$ curl -O https://raw.githubusercontent.com/BSMRKRS/Controller-Support/master/Controller.py
-```
 
 - Run host.py on robot and then run Controller on laptop (order matters and replace \<robot ip> w/ your robot's ip address)
 
 ```
-$ python host.py
+$ python3 host.py
 $ python Controller.py <robot ip>
 ```
 
-## Required Packages on Host
+## Required Packages on Client (Laptop)
 
 - pygame
 ```
 $ pip install pygame
 ```
 
-## Write your own code
+## Required Packages on Host (Robot)
 
-Checkout the branch named custom to write your own program with controller support.
+- pyax12
+```
+$ pip3 install pyax12
+```
 
 ## Supported Controllers/Tested Controllers
 
