@@ -83,9 +83,9 @@ def driveMotors():
     global motorL, motorR
 
     if triggerRight > -1.0:
-        return 1024, -1024
+        return maxMotorL, -maxMotorR
     elif triggerLeft > -1.0:
-        return -1024, 1024
+        return -maxMotorL, maxMotorR
 
     if -yDeadZoneRight < yAxisRight < yDeadZoneLeft:
         motorSpeedL = 0
