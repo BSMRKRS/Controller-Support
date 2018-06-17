@@ -97,6 +97,11 @@ def controllerInput():
 def driveMotors():
     global motorL, motorR
 
+    if triggerRight > -1.0:
+        return maxMotorL, -maxMotorR
+    elif triggerLeft > -1.0:
+        return -maxMotorL, maxMotorR
+
     if -yDeadZoneRight < yAxisRight < yDeadZoneRight:
         motorSpeedL = 0
         motorSpeedR = 0
@@ -194,9 +199,9 @@ def grasper():
 ######################
 def turret():
     if bumperR:
-        print "Turret: Right"
+        sockArm.sendall("0009 0000")
     elif bumperL:
-        print "Turret: Left"
+        sockArm.sendall("0010 0000")
     else:
         print "Turret: Stopped"
 

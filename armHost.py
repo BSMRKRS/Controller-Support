@@ -10,12 +10,6 @@ RPL.RoboPiInit("/dev/ttyAMA0",115200)
 grasper0 = 10
 grasper1 = 11
 
-# wrist pins
-wrist0 = 8
-wrist1 = 9
-
-sleepRate = .01
-
 def convertServo(x):
     return (x + 1500)
 
@@ -52,28 +46,19 @@ while True:
             if int(data[0]) == 5:
                 RPL.servoWrite(grasper0, convertServo(-int(data[1])))
                 RPL.servoWrite(grasper1, convertServo(int(data[1])))
-            '''
             if int(data[0]) == 6:
-                RPL.servoWrite(wrist0, 2000)
-                sleep(sleepRate)
-                RPL.servoWrite(wrist1, 2000)
-                sleep(sleepRate)
+                arm.wristRotate()
             if int(data[0]) == 7:
-                RPL.servoWrite(wrist0, 1000)
-                sleep(sleepRate)
-                RPL.servoWrite(wrist1, 2000)
-                sleep(sleepRate)
+                arm.wristUp()
             if int(data[0]) == 8:
-                RPL.servoWrite(wrist0, 2000)
-                sleep(sleepRate)
-                RPL.servoWrite(wrist1, 1000)
-                sleep(sleepRate)
+                arm.wristDown()
+            if int(data[0]) == 9:
+                arm.turretRight()
+            if int(data[0]) == 10:
+                arm.turretRight()
             else:
-                RPL.servoWrite(wrist0, 0)
-                sleep(sleepRate)
-                RPL.servoWrite(wrist1, 0)
-                sleep(sleepRate)
-            '''
+                arm.wristStop()
+                arm.turretStop()
 
             connection.sendall('r')
 

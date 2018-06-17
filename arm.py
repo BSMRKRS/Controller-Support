@@ -7,6 +7,11 @@ shoulder_dir = 6
 elbow_pul = 5
 elbow_dir = 3
 
+wrist0 = 1
+wrist1 = 2
+
+turret = 8
+
 up = True
 down = False
 
@@ -40,22 +45,27 @@ def elbow(dir, run_for = 1, speed = speed):
   time.sleep(run_for)
   stop()
 
-def wristRotateClockwise():
-  RPL.servoWrite(9, 10)
-  time.sleep(1)
-  RPL.servoWrite(9,0)
+def wristUp():
+    RPL.servoWrite(wrist0, 1000)
+    RPL.servoWrite(wrist1, 1000)
 
-def wristRotateCounter():
-  RPL.servoWrite(9,3000)
-  time.sleep(1)
-  RPL.servoWrite(9,0)
+def wristDown():
+    RPL.servoWrite(wrist0, 2000)
+    RPL.servoWrite(wrist1, 2000)
 
-def wristFlipUp():
-  RPL.servoWrite(10,10)
-  time.sleep(1)
-  RPL.servoWrite(10,0)
+def wristRotate():
+    RPL.servoWrite(wrist0, 1000)
+    RPL.servoWrite(wrist1, 2000)
 
-def wristGrasperOpen():
-  RPL.servoWrite(11,10)
-  time.sleep(1)
-  RPL.servoWrite(11,0)
+def wristStop():
+    RPL.servoWrite(wrist0, 0)
+    RPL.servoWrite(wrist1, 0)
+
+def turretLeft():
+    RPL.servoWrite(turret, 1600)
+
+def turretRight():
+    RPL.servoWrite(turret, 1400)
+
+def turrenStop():
+    RPL.servoWrite(turret, 0)
