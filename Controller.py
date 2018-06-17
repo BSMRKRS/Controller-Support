@@ -200,8 +200,10 @@ def grasper():
 def turret():
     if bumperR:
         sockArm.sendall("0009 0000")
+        sockArm.recv(1)
     elif bumperL:
         sockArm.sendall("0010 0000")
+        sockArm.recv(1)
     else:
         print "Turret: Stopped"
 

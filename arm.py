@@ -1,5 +1,4 @@
 import RoboPiLib_pwm as RPL
-import RoboPiLib as RPL0
 import time as time
 RPL.RoboPiInit("/dev/ttyAMA0",115200)
 
@@ -63,10 +62,10 @@ def wristStop():
     RPL.servoWrite(wrist1, 0)
 
 def turretLeft():
-    RPL0.servoWrite(turret, 1800)
+    RPL.servoWrite(turret, 1800)
 
 def turretRight():
-    RPL0.servoWrite(turret, 1400)
+    RPL.servoWrite(turret, 1400)
 
 def turretStop():
-    RPL0.servoWrite(turret, 0)
+    RPL.servoWrite(turret, 0)
