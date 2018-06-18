@@ -2,15 +2,15 @@ import RoboPiLib_pwm as RPL
 import time as time
 RPL.RoboPiInit("/dev/ttyAMA0",115200)
 
-shoulder_pul = 7
-shoulder_dir = 6
-elbow_pul = 5
-elbow_dir = 3
+shoulder_pul = 5
+shoulder_dir = 3
+elbow_pul = 7
+elbow_dir = 6
 
-wrist0 = 1
-wrist1 = 2
+wrist0 = 9
+wrist1 = 8
 
-turret = 8
+turret = 20
 
 up = True
 down = False
