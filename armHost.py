@@ -59,6 +59,7 @@ while True:
             else:
                 arm.wristStop()
                 arm.turretStop()
+                arm.stop()
 
             connection.sendall('r')
 
