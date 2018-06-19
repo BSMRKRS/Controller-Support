@@ -39,5 +39,7 @@ while True:
             RPL.servoWrite(motorL, int(data[0]))
             RPL.servoWrite(motorR, int(data[1]))
 
+            connection.sendall('r')
+
     finally:
         connection.close()
