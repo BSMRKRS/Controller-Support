@@ -2,8 +2,11 @@
 # Reads controller input and connects to robot
 import os, sys, socket
 import pygame
+from time import sleep
 
 #### Global Variables ####
+
+socketRate = .1 # Make larger number to slow do info sent to Robot; larger number creates more latency; Too low of number sents too much info
 
 # left and right joystick dead zones (current dead zone for ps4 controller)
 xDeadZoneLeft = 0.06
@@ -80,9 +83,9 @@ def driveMotors():
     global motorL, motorR
 
     if triggerRight > -1.0:
-        return maxMotorL, -maxMotorR
+        return 1024, -1024
     elif triggerLeft > -1.0:
-        return -maxMotorL, maxMotorR
+        return -1024, 1024
 
     if -yDeadZoneRight < yAxisRight < yDeadZoneLeft:
         motorSpeedL = 0
@@ -152,7 +155,7 @@ while True:
 
     try:
         sock.sendall(str('%04.0f' % int(speedConvert(-drive[0]))) + ' ' + str('%04.0f' % int(speedConvert(drive[1]))))
-        sock.recv(1)
+        sleep(socketRate)
 
     except:
         print "Error: Failed to connect to Robot"
