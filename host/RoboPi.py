@@ -1,5 +1,5 @@
-# controller.py
-# Basic script for driving robot
+# host/RoboPi.py
+# Host file for robots using a RoboPi hat
 
 # MIT License
 #
@@ -24,70 +24,52 @@
 # SOFTWARE.
 
 
-from bsmLib.controller import controller
-from bsmLib.networking import tcpClient
-from sys import argv
+from bsmLib.networking import tcpServer
+from bsmLib.misc import map
+from bsmLib import RPL
 
 #### Global Variables ####
-DEADZONE = .2 # Controller deadzone
-
-HOST = argv[1]
+HOST = '0.0.0.0'
 PORT = 10000
+
+MIN = 1000 # Min servo speed
+MAX = 2000 # Max servo speed
+
+# Servo Pins
+L = 0
+R = 1
 
 
 ######################
 ## 0. Setup
 ######################
-# Setup Controller
-c = controller(0, DEADZONE)
+# Create tcp connection and listen
+t = tcpServer(HOST, PORT)
+t.listen()
 
-# Create tcp connection & connect
-t = tcpClient(HOST, PORT)
-t.connect()
+RPL.init() # Init RoboPi hat connection
 
 
 ######################
-## 1. Drive
+## 1. drive
 ######################
 def drive():
-    c.update()
-
-    # Trigger turn in place
-    if(c.RT > -1.0):
-        s = (c.RT + 1) / 2
-        return s, -s
-    elif(c.LT > -1.0):
-        s = (c.LT + 1) / 2
-        return -s, s
-
-    # Analog speed from Left Joystick
-    l = c.LY
-    r = c.LY
-
-    # Direction from Right Joystick
-    if(c.RX <= 0.0):
-        l += (l * (c.RX))
-    elif(c.RX > 0.0):
-        r -= (r * (c.RX))
-
-    return -l, r
-
-
-######################
-## 2. Run
-######################
-def run():
-    if c.XBOX:
-        t.send("stop")
+    d = t.recv()
+    if d == "stop":
+        RPL.servoWrite(L, 0)
+        RPL.servoWrite(R, 0)
         t.stop()
         exit()
-    d = drive()
-    d = "%f %f" % (d[0], d[1])
-    t.send(d)
+    d = d.split(' ')
+    l = int(map(float(d[0]), -1, 1, MIN, MAX))
+    r = int(map(float(d[1]), -1, 1, MIN, MAX))
+    RPL.servoWrite(L, l)
+    RPL.servoWrite(R, r)
+
 
 ######################
 ##      Main        ##
 ######################
 if __name__ == "__main__":
     while(1):
-        run()
+        drive()

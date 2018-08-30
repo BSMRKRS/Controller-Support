@@ -1,5 +1,5 @@
-# controller.py
-# Basic script for driving robot
+# host/ax-12.py
+# Host file for robots using AX-12 servos
 
 # MIT License
 #
@@ -24,70 +24,79 @@
 # SOFTWARE.
 
 
-from bsmLib.controller import controller
-from bsmLib.networking import tcpClient
-from sys import argv
+from bsmLib.networking import tcpServer
+from pyax12.connection import Connection
 
 #### Global Variables ####
-DEADZONE = .2 # Controller deadzone
-
-HOST = argv[1]
+HOST = '0.0.0.0'
 PORT = 10000
+
+DEVICE = '/dev/ttyACM0' # Ax-12 servos
+
+# Servo IDs
+L = (1, 2) # Left servos
+R = (2, 3) # Right Servos
 
 
 ######################
 ## 0. Setup
 ######################
-# Setup Controller
-c = controller(0, DEADZONE)
+# Create tcp connection and listen
+t = tcpServer(HOST, PORT)
+t.listen()
 
-# Create tcp connection & connect
-t = tcpClient(HOST, PORT)
-t.connect()
+sc = Connection(port=DEVICE, baudrate=1000000)
+
+# Set servos to continuous
+for i in (L + R):
+    set_continuous(i)
 
 
 ######################
-## 1. Drive
+## 1. Continuous
+######################
+def set_continuous(motor_id):
+    sc.set_cw_angle_limit(motor_id, 0, degrees=False)
+    sc.set_ccw_angle_limit(motor_id, 0, degrees=False)
+
+
+######################
+## 2. Speed Convert
+######################
+def speedConvert(speed):
+    if(speed > 0.0):
+        speed = 1024 + speed * 1023
+        return speed
+    elif(speed < 0.0):
+        speed = -speed * 1023
+        return speed
+    else:
+        speed = 0
+        return speed
+
+
+######################
+## 3. Drive
 ######################
 def drive():
-    c.update()
-
-    # Trigger turn in place
-    if(c.RT > -1.0):
-        s = (c.RT + 1) / 2
-        return s, -s
-    elif(c.LT > -1.0):
-        s = (c.LT + 1) / 2
-        return -s, s
-
-    # Analog speed from Left Joystick
-    l = c.LY
-    r = c.LY
-
-    # Direction from Right Joystick
-    if(c.RX <= 0.0):
-        l += (l * (c.RX))
-    elif(c.RX > 0.0):
-        r -= (r * (c.RX))
-
-    return -l, r
-
-
-######################
-## 2. Run
-######################
-def run():
-    if c.XBOX:
-        t.send("stop")
+    d = t.recv()
+    if d == "stop":
+        for i in (L + R):
+            sc.set_speed(i, 0)
         t.stop()
         exit()
-    d = drive()
-    d = "%f %f" % (d[0], d[1])
-    t.send(d)
+    d = d.split(' ')
+    l = int(speedConvert(float(d[0])))
+    r = int(speedConvert(float(d[1])))
+    for i in L:
+        sc.set_speed(i, l)
+    for i in R:
+        sc.set_speed(i, r)
+
 
 ######################
 ##      Main        ##
 ######################
 if __name__ == "__main__":
     while(1):
-        run()
+        drive()
