@@ -35,7 +35,7 @@ DEVICE = '/dev/ttyACM0' # Ax-12 servos
 
 # Servo IDs
 L = (1, 2) # Left servos
-R = (2, 3) # Right Servos
+R = (3, 4) # Right Servos
 
 
 ######################
@@ -47,10 +47,6 @@ t.listen()
 
 sc = Connection(port=DEVICE, baudrate=1000000)
 
-# Set servos to continuous
-for i in (L + R):
-    set_continuous(i)
-
 
 ######################
 ## 1. Continuous
@@ -58,6 +54,10 @@ for i in (L + R):
 def set_continuous(motor_id):
     sc.set_cw_angle_limit(motor_id, 0, degrees=False)
     sc.set_ccw_angle_limit(motor_id, 0, degrees=False)
+
+
+for i in (L + R):
+    set_continuous(i)
 
 
 ######################
