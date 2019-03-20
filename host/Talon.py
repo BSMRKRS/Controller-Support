@@ -69,7 +69,7 @@ def drive():
     l = int(map(float(d[0]), -1, 1, MIN, MAX))
     r = int(map(float(d[1]), -1, 1, MIN, MAX))
     RPL.pwmWrite(L, l, PERIOD)
-    RPL.servoWrite(R, r, PERIOD)
+    RPL.pwmWrite(R, r, PERIOD)
 
 
 ######################
