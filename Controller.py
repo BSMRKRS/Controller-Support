@@ -55,10 +55,10 @@ def drive():
     # Trigger turn in place
     if(c.RT > -1.0):
         s = (c.RT + 1) / 2
-        return s, -s
+        return s, s
     elif(c.LT > -1.0):
         s = (c.LT + 1) / 2
-        return -s, s
+        return -s, -s
 
     # Analog speed from Left Joystick
     l = c.LY
@@ -82,7 +82,7 @@ def run():
         t.stop()
         exit()
     d = drive()
-    d = "%f %f" % (d[0], d[1])
+    d = "%f %f" % (d[0], -d[1])
     t.send(d)
 
 ######################
